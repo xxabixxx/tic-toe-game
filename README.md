@@ -1,4 +1,4 @@
-# tic-toe-gam
+# tic-toe-game
 
 This is a simple implementation of the classic tic-tac-toe game in JavaScript. It allows two players to take turns marking cells on a 3x3 grid until one of them wins or the game ends in a draw.
 
