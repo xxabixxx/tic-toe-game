@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tic Tac Toe</title>
+  <style>
+    .cell {
+      width: 100px;
+      height: 100px;
+      border: 1px solid black;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2em;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="board"></div>
+  <script>
+    let currentPlayer = 'X';
+    let board = [
+      ['', '', ''],
+      ['', '', ''],
+      ['', '', '']
+    ];
+
+    function checkWinner() {
+      // Check rows, columns, and diagonals for a win
+      for (let i = 0; i < 3; i++) {
+        if (
+          (board[i][0] === currentPlayer && board[i][1] === currentPlayer && board[i][2] === currentPlayer) ||
+          (board[0][i] === currentPlayer && board[1][i] === currentPlayer && board[2][i] === currentPlayer)
+        ) {
+          return true;
+        }
+      }
+      if (
+        (board[0][0] === currentPlayer && board[1][1] === currentPlayer && board[2][2] === currentPlayer) ||
+        (board[0][2] === currentPlayer && board[1][1] === currentPlayer && board[2][0] === currentPlayer)
+      ) {
+        return true;
+      }
+      return false;
+    }
+
+    function checkDraw() {
+      // Check if the board is full
+      for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+          if (board[i][j] === '') {
+            return false;
+          }
+        }
+      }
+      return true;
+    }
+
+    function handleClick(row, col) {
+      if (board[row][col] === '' && !checkWinner()) {
+        board[row][col] = currentPlayer;
+        if (checkWinner()) {
+          alert(currentPlayer + ' wins!');
+        } else if (checkDraw()) {
+          alert('It\'s a draw!');
+        } else {
+          currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+        }
+        renderBoard();
+      }
+    }
+
+    function renderBoard() {
+      let boardElement = document.getElementById('board');
+      boardElement.innerHTML = '';
+      board.forEach((row, rowIndex) => {
+        let rowElement = document.createElement('div');
+        rowElement.className = 'row';
+        row.forEach((cell, colIndex) => {
+          let cellElement = document.createElement('div');
+          cellElement.className = 'cell';
+          cellElement.textContent = cell;
+          cellElement.addEventListener('click', () => {
+            handleClick(rowIndex, colIndex);
+          });
+          rowElement.appendChild(cellElement);
+        });
+        boardElement.appendChild(rowElement);
+      });
+    }
+
+    renderBoard();
+  </script>
+</body>
+</html>
